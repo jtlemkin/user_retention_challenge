@@ -76,11 +76,11 @@ func ParseActivities(file *os.File) [NumDays]usersSet {
 func ComposeLine(start int, activities [NumDays]usersSet) string {
 	line := strconv.Itoa(start + 1)
 
-	var recurrentUsers usersSet
+	var continuingUsers usersSet
 	if start == 0 {
-		recurrentUsers = activities[start]
+		continuingUsers = activities[start]
 	} else {
-		recurrentUsers = GetDisjointUsers(activities[start], activities[start-1])
+		continuingUsers = GetDisjointUsers(activities[start], activities[start-1])
 	}
 
 	for i := 0; i < NumDays; i++ {
@@ -91,15 +91,13 @@ func ComposeLine(start int, activities [NumDays]usersSet) string {
 			line += "0"
 		} else if start+i == NumDays-1 {
 			// Last day in data set
-			// All recurring users terminate here
-			line += strconv.Itoa(len(recurrentUsers))
+			// All continuing users terminate here
+			line += strconv.Itoa(len(continuingUsers))
 		} else {
-			// Terminating users have been recurrent users so far
-			// but are not present in the next day's users
-			terminatingUsers := GetDisjointUsers(recurrentUsers, activities[start+i+1])
-			// The new recurrent users are the current recurrent users who are not
-			// terminating
-			recurrentUsers = GetDisjointUsers(recurrentUsers, terminatingUsers)
+			// Terminating users are current users not present in the next day's users
+			terminatingUsers := GetDisjointUsers(continuingUsers, activities[start+i+1])
+			// The new current users are the current users who are not terminating
+			continuingUsers = GetDisjointUsers(continuingUsers, terminatingUsers)
 
 			line += strconv.Itoa(len(terminatingUsers))
 		}
