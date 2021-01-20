@@ -5,7 +5,7 @@ import "testing"
 func TestGetDayID(t *testing.T) {
 	t.Run("on first day", func(t *testing.T) {
 		var timestamp int64 = 1451606400
-		got := GetDayID(timestamp)
+		got := getDayID(timestamp)
 		want := 0
 
 		if got != want {
@@ -15,7 +15,7 @@ func TestGetDayID(t *testing.T) {
 
 	t.Run("on last day", func(t *testing.T) {
 		var timestamp int64 = 1452755160
-		got := GetDayID(timestamp)
+		got := getDayID(timestamp)
 		want := 13
 
 		if got != want {
@@ -24,7 +24,7 @@ func TestGetDayID(t *testing.T) {
 	})
 
 	t.Run("before first day", func(t *testing.T) {
-		got := GetDayID(0)
+		got := getDayID(0)
 		want := -1
 
 		if got != want {
@@ -47,7 +47,7 @@ func TestGetDisjointUsers(t *testing.T) {
 			6: true,
 		}
 
-		got := GetDisjointUsers(users1, users2)
+		got := getDisjointUsers(users1, users2)
 
 		if len(got) != 3 {
 			t.Errorf("Expected overlapping set of length 0 but set has length %d", len(got))
@@ -67,7 +67,7 @@ func TestGetDisjointUsers(t *testing.T) {
 			4: true,
 		}
 
-		got := GetDisjointUsers(users1, users2)
+		got := getDisjointUsers(users1, users2)
 
 		if len(got) != 1 {
 			t.Errorf("Expected overlapping set of length 2 but set has length %d", len(got))
@@ -76,8 +76,8 @@ func TestGetDisjointUsers(t *testing.T) {
 }
 
 func TestComposeLine(t *testing.T) {
-	var activities [NumDays]usersSet
-	for i := 0; i < NumDays; i++ {
+	var activities [numDays]usersSet
+	for i := 0; i < numDays; i++ {
 		activities[i] = usersSet{}
 	}
 
@@ -113,7 +113,7 @@ func TestComposeLine(t *testing.T) {
 	}
 
 	t.Run("day one", func(t *testing.T) {
-		got := ComposeLine(0, activities)
+		got := composeLine(0, activities)
 		want := "1,2,1,0,0,0,0,0,0,0,0,0,0,0,0"
 
 		if got != want {
@@ -122,7 +122,7 @@ func TestComposeLine(t *testing.T) {
 	})
 
 	t.Run("day two", func(t *testing.T) {
-		got := ComposeLine(1, activities)
+		got := composeLine(1, activities)
 		want := "2,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
 
 		if got != want {
@@ -131,7 +131,7 @@ func TestComposeLine(t *testing.T) {
 	})
 
 	t.Run("day six", func(t *testing.T) {
-		got := ComposeLine(5, activities)
+		got := composeLine(5, activities)
 		want := "6,1,4,0,0,0,0,0,0,0,0,0,0,0,0"
 
 		if got != want {
@@ -140,7 +140,7 @@ func TestComposeLine(t *testing.T) {
 	})
 
 	t.Run("last day", func(t *testing.T) {
-		got := ComposeLine(13, activities)
+		got := composeLine(13, activities)
 		want := "14,3,0,0,0,0,0,0,0,0,0,0,0,0,0"
 
 		if got != want {

@@ -7,33 +7,33 @@ import (
 	"strconv"
 )
 
-// StartTime represents the timestamp of the earliest date we are considering
-const StartTime int64 = 1451606400
+// startTime represents the timestamp of the earliest date we are considering
+const startTime int64 = 1451606400
 
-// NumDays is the maximum number of days that we're considering
-const NumDays = 14
+// numDays is the maximum number of days that we're considering
+const numDays = 14
 
 type usersSet = map[int64]bool
 
-// GetDayID converts a timestamp to a day ID
-func GetDayID(timestamp int64) int {
-	if timestamp < StartTime {
+// getDayID converts a timestamp to a day ID
+func getDayID(timestamp int64) int {
+	if timestamp < startTime {
 		return -1
 	}
 
 	var day int64 = 86400
 
-	id := (timestamp - StartTime) / day
+	id := (timestamp - startTime) / day
 
-	if id > NumDays {
+	if id > numDays {
 		return -1
 	}
 
 	return int(id)
 }
 
-// GetDisjointUsers returns the users that are in first but not in second
-func GetDisjointUsers(first usersSet, second usersSet) usersSet {
+// getDisjointUsers returns the users that are in first but not in second
+func getDisjointUsers(first usersSet, second usersSet) usersSet {
 	disjoint := make(usersSet)
 
 	for user := range first {
@@ -45,11 +45,11 @@ func GetDisjointUsers(first usersSet, second usersSet) usersSet {
 	return disjoint
 }
 
-// ParseActivities creates an array of day structs from an input csv file
-func ParseActivities(file *os.File) [NumDays]usersSet {
+// parseActivities creates an array of day structs from an input csv file
+func parseActivities(file *os.File) [numDays]usersSet {
 	reader := csv.NewReader(file)
 
-	var days [NumDays]usersSet
+	var days [numDays]usersSet
 	for i := range days {
 		days[i] = make(usersSet)
 	}
@@ -64,40 +64,40 @@ func ParseActivities(file *os.File) [NumDays]usersSet {
 		user, _ := strconv.ParseInt(activity[1], 10, 64)
 
 		// TODO: error checking for Atoi conversions
-		start := GetDayID(timestamp)
+		start := getDayID(timestamp)
 		days[start][user] = true
 	}
 
 	return days
 }
 
-// ComposeLine generates the line to write to the CSV file
+// composeLine generates the line to write to the CSV file
 // start is the index of the first day
-func ComposeLine(start int, activities [NumDays]usersSet) string {
+func composeLine(start int, activities [numDays]usersSet) string {
 	line := strconv.Itoa(start + 1)
 
 	var continuingUsers usersSet
 	if start == 0 {
 		continuingUsers = activities[start]
 	} else {
-		continuingUsers = GetDisjointUsers(activities[start], activities[start-1])
+		continuingUsers = getDisjointUsers(activities[start], activities[start-1])
 	}
 
-	for i := 0; i < NumDays; i++ {
+	for i := 0; i < numDays; i++ {
 		line += ","
 
-		if start+i >= NumDays {
+		if start+i >= numDays {
 			// Day not in data set
 			line += "0"
-		} else if start+i == NumDays-1 {
+		} else if start+i == numDays-1 {
 			// Last day in data set
 			// All continuing users terminate here
 			line += strconv.Itoa(len(continuingUsers))
 		} else {
 			// Terminating users are current users not present in the next day's users
-			terminatingUsers := GetDisjointUsers(continuingUsers, activities[start+i+1])
+			terminatingUsers := getDisjointUsers(continuingUsers, activities[start+i+1])
 			// The new current users are the current users who are not terminating
-			continuingUsers = GetDisjointUsers(continuingUsers, terminatingUsers)
+			continuingUsers = getDisjointUsers(continuingUsers, terminatingUsers)
 
 			line += strconv.Itoa(len(terminatingUsers))
 		}
@@ -107,13 +107,13 @@ func ComposeLine(start int, activities [NumDays]usersSet) string {
 }
 
 // WriteCSV writes the output CSV file
-func WriteCSV(activities [NumDays]usersSet) {
+func writeCSV(activities [numDays]usersSet) {
 	f, _ := os.Create("output.csv")
 	// TODO: Error checking on file creation
 	defer f.Close()
 
 	for i := range activities {
-		line := ComposeLine(i, activities)
+		line := composeLine(i, activities)
 		f.WriteString(line + "\n")
 	}
 }
@@ -124,6 +124,6 @@ func main() {
 
 	// TODO: Check err variable from os.Open
 
-	activities := ParseActivities(file)
-	WriteCSV(activities)
+	activities := parseActivities(file)
+	writeCSV(activities)
 }
