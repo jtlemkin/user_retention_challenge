@@ -1,0 +1,81 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Bold;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red34\green34\blue34;\red17\green85\blue204;}
+{\*\expandedcolortbl;;\csgenericrgb\c13333\c13333\c13333;\csgenericrgb\c6667\c33333\c80000;}
+\margl1440\margr1440\vieww18780\viewh14640\viewkind0
+\deftab720
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf2 \ul \ulc2 Coding exercise \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 \ulnone \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b \cf2 You can find the data file to be processed at \cf3 \ul \ulc3 https://drive.google.com/open?id=0B16YOMswU-N6b1lKVF9rWmlaSTA\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\b0 \cf0 \ulnone \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 You may use the language of your choice, and use of any of the language\'92s standard features or libraries is encouraged. If you have any questions about your choice of language, please ask before starting this exercise.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 In this exercise, we will be analyzing an application's user retention as we compute the number of users that user the application for a number of consecutive days.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 The provided CSV file documents user activity for the application. Each line in the file indicates the time of activity and the user associated with the activity. Determine how addictive the application is by computing how many consecutive days users that started using the application on a given day ended up using it for. In this exercise we will consider the date range 1/1/2016 to 1/14/2016 and you can assume that nobody used the application on 12/31/2016 or 1/15/2016. Your output should consist of one line of output for each day in the date range, with each line having the format\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 DAY,USERS_PLAYING_1_DAY,USERS_PLAYING_2_DAYS,.....,USERS_PLAYING_14_DAYS\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 where DAY is an integer in the range from 1 to 14 and USERS_PLAYING_N_DAY(S) is a count of the people who started playing that day and then played for N consecutive days in a row. If they only played the day they started, and did not return the following day, this should be considered one day of consecutive usage. If a user returns to the application after a gap in usage, they should be counted the same way as a user who is seen for the first time.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 The program should take one command line argument which is the path to the CSV file.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 The sample data provided covers the time range 1/1/2016 to 1/14/2016. The time in seconds from start of epoch to 1/1/2016 00:00:00 is 1451606400.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \ul \ulc2 Input file format\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \ulnone \
+\pard\pardeftab720\li720\pardirnatural\partightenfactor0
+\cf2 	\'95	CSV\
+	\'95	a timestamp and user ID pair on each line\
+	\'95	each line ends with a '\\n'\
+	\'95	the timestamp is field 1 and the user ID is field 2\
+	\'95	timestamp is 32-\'adbit int, indicating the number of seconds from start of epoch (1/1/1970 00:00) relative to UTC\
+	\'95	user ID is 64\'ad-bit int\
+	\'95	the data in the file is sorted in ascending order of timestamps\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \ul \ulc2 Some things that may simplify the implementation\
+\pard\pardeftab720\li720\pardirnatural\partightenfactor0
+\cf2 \ulnone 	\'95	You do not need to handle malformed input data. You can assume that all the data in the input is consistent with the format specified above.\
+	\'95	You do not need to handle invalid paths passed as the arg to the program\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \ul \ulc2 Provide the following once you have completed the coding exercise:\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \ulnone \
+\pard\pardeftab720\li720\pardirnatural\partightenfactor0
+\cf2 	\'95	A file that contains:  \
+\pard\pardeftab720\li1440\pardirnatural\partightenfactor0
+\cf2 	\'95	Any instructions needed to build (if necessary) and run the application.\
+	\'95	Any requirements or constraints that must be met to build and/or run the program (e.g. platform, tool versions, language versions)\
+\pard\pardeftab720\li720\pardirnatural\partightenfactor0
+\cf2 	\'95	The source code for your solution\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+}
